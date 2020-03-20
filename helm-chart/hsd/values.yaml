@@ -6,33 +6,20 @@ replicaCount: 1
 
 image:
   repository: shalzz/hsd
-  tag: latest
+  tag: v2.1.3
   pullPolicy: IfNotPresent
 
 env:
-  SIGNUPS_ALLOWED: true
-  INVITATIONS_ALLOWED: true
 
 nameOverride: ""
 fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 80
   loadBalancerIP:
-
-ingress:
-  enabled: false
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - bitwarden.example
-  tls:
-    - secretName: bitwarden-tls
-      hosts:
-        - bitwarden.example
+  nsPort: 5300
+  rsPort: 53
+  p2pPort: 12038
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

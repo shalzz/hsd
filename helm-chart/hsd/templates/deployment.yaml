@@ -23,6 +23,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["hsd"]
+          args:
+          - --rs-host 0.0.0.0
+          - --rs-port {{ .Values.service.rsPort }}
+          - --ns-port {{ .Values.service.nsPort }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           env:
@@ -31,9 +36,12 @@ spec:
               value: {{ $val | quote }}
             {{- end}}
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
+            - name: rs
+              containerPort: {{ .Values.service.rsPort }}
+            - name: ns
+              containerPort: {{ .Values.service.nsPort }}
+            - name: p2p
+              containerPort: {{ .Values.service.p2pPort }}
           livenessProbe:
             httpGet:
               path: /
