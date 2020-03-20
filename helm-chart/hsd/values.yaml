@@ -15,10 +15,10 @@ nameOverride: ""
 fullnameOverride: ""
 
 service:
-  type: ClusterIP
-  loadBalancerIP:
-  nsPort: 5300
-  rsPort: 53
+  type: LoadBalancer
+  # loadBalancerIP:
+  nsPort: 53
+  rsPort: 5300
   p2pPort: 12038
 
 resources: {}
@@ -41,7 +41,7 @@ affinity: {}
 
 ## Persist data to a persitent volume
 persistence:
-  enabled: false
+  enabled: true
   #storageClass:
-  #accessMode: ReadWriteOnce
-  #size: 800Mi
+  accessMode: ReadWriteOnce
+  size: 1Gi
